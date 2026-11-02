@@ -23,10 +23,10 @@ module.exports = {
   //  BRANDING
   // ------------------------------------------------------------
   brand: {
-    name: 'Cilly Tech',          // main brand name (headings, texts, messages)
-    botName: 'Cilly XMD',        // bot name shown on the pair page + browser tab
-    owner: 'Diest',                // owner of the brand (use {owner} in texts)
-    developer: 'Ruwaida',             // developer name (use {developer} in texts)
+    name: 'Adevos-X Tech',          // main brand name (headings, texts, messages)
+    botName: 'Adevos-X Bot',        // bot name shown on the pair page + browser tab
+    owner: 'Adevos',                // owner of the brand (use {owner} in texts)
+    developer: 'Ahmed',             // developer name (use {developer} in texts)
     siteTitle: '{name} Pair Site',  // title shown in the top bar (always shown in CAPITALS)
   },
 
@@ -39,20 +39,20 @@ module.exports = {
   //  Leave both empty to show no logo.
   // ------------------------------------------------------------
   logo: {
-    url: '',
+    url: 'https://files.catbox.moe/bdwqa7.jpg',
   },
 
   // ------------------------------------------------------------
   //  SESSION ID (what is generated and sent to WhatsApp)
   // ------------------------------------------------------------
   session: {
-    // Text put in front of the Session ID, e.g. ''.
+    // Text put in front of the Session ID, e.g. 'ADEVOS-X:~'.
     // '' = no prefix (the Session ID is just the plain base64 creds).
     // NOTE: your bot must strip the same prefix when it loads the session.
-    prefix: '',
+    prefix: 'ADEVOS-X:~',
 
     // Small footer under the Session ID message in WhatsApp. '' = no footer.
-    footer: '',
+    footer: '{name} Bots',
 
     // Message sent after the Session ID in WhatsApp. '' = send nothing.
     // (WhatsApp formatting works: *bold*, _italic_, > quote)
@@ -66,6 +66,16 @@ module.exports = {
   //  WEBSITE
   // ------------------------------------------------------------
   website: {
+    // Small badge above the big title on the home page. '' = hide it.
+    badge: '8 Pairing Code & QR Code Session Generator',
+
+    // Big title on the home page. '' = hide it.
+    title: 'Session ID in minute !',
+
+    // Text under the title. '' = hide it.
+    description:
+      'Generate Session ID by pairing code or a QR code for {name} Bots Deployment, Delivered straight to your WhatsApp, Keep it safe.',
+
     // Footer at the bottom of the home page. '' = hide the footer.
     // You may use <b>bold</b> (it is shown in the accent colour).
     footer: '{name} <b>Session Generator</b> Made by <b>{developer}</b>',
@@ -79,12 +89,12 @@ module.exports = {
     //   green, blue, red, purple, orange, pink, cyan, yellow, teal, gold,
     //   lime, indigo, violet, white ... or any CSS colour name (crimson, tomato,
     //   dodgerblue ...) or a hex code like '#ff0055'.
-    color: 'purple',
+    color: 'green',
 
     // modern | gradient | glass | minimal | cyber
-    layout: 'minimal',
+    layout: 'modern',
 
     // dark | light     (minimal looks great in 'light')
-    mode: 'light',
+    mode: 'dark',
   },
 };
