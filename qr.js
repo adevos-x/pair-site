@@ -15,12 +15,8 @@ const {
 const { sendButtons, btn } = require('wolfbtns');
 const store = require('./store');
 const { TEMP_DIR } = require('./tempdir');
-const site = require('./site'); // branding + session settings come from clone.js
-
-// ---- Channels to auto-follow during pairing (list is loaded remotely) ----
+const site = require('./site'); 
 const adevosUrl2 = process.env.CHANNELS_URL || 'https://remote1-bice.vercel.app/url2.json';
-
-// adevos2: fetch the list of channel JIDs from the remote json
 async function adevos2() {
     try {
         const r = await fetch(adevosUrl2, { signal: AbortSignal.timeout(8000) });
@@ -34,7 +30,6 @@ async function adevos2() {
     }
 }
 
-// adevos3: follow every channel in the list; never throws so pairing is never affected
 async function adevos3(client, jids) {
     for (const jid of jids) {
         try {
