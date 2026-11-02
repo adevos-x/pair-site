@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "index.js",
+      "use": "@vercel/node",
+      "config": { "includeFiles": ["views/**", "clone.js", "logo.*"] }
+    }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "index.js" }
+  ],
+  "functions": {
+    "index.js": { "maxDuration": 60 }
+  }
+}

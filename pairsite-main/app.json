@@ -1,0 +1,24 @@
+{
+  "name": "Adevos-X Bot Pair Site",
+  "description": "Adevos-X Bot Web Session Generator",
+  "logo": "https://files.catbox.moe/bdwqa7.jpg",
+  "repository": "https://github.com/adevos-x/pair-site",
+  "success_url": "/",
+  "buildpacks": [
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-nodejs#latest"
+    }
+  ],
+  "env": {
+    "MESSAGE": {
+      "description": "Adevos-X Tech Key Word",
+      "value": "Adevos-X Tech",
+      "required": false
+    },
+    "PORT": {
+      "description": "Port for Website",
+      "value": "5000",
+      "required": false
+    }
+  }
+}
