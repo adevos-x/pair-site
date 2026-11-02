@@ -23,10 +23,10 @@ module.exports = {
   //  BRANDING
   // ------------------------------------------------------------
   brand: {
-    name: 'Adevos-X Tech',          // main brand name (headings, texts, messages)
-    botName: 'Adevos-X Bot',        // bot name shown on the pair page + browser tab
-    owner: 'Adevos',                // owner of the brand (use {owner} in texts)
-    developer: 'Ahmed',             // developer name (use {developer} in texts)
+    name: 'Cilly Tech',          // main brand name (headings, texts, messages)
+    botName: 'Cilly XMD',        // bot name shown on the pair page + browser tab
+    owner: 'Diest',                // owner of the brand (use {owner} in texts)
+    developer: 'Ruwaida',             // developer name (use {developer} in texts)
     siteTitle: '{name} Pair Site',  // title shown in the top bar (always shown in CAPITALS)
   },
 
@@ -39,20 +39,20 @@ module.exports = {
   //  Leave both empty to show no logo.
   // ------------------------------------------------------------
   logo: {
-    url: 'https://files.catbox.moe/bdwqa7.jpg',
+    url: '',
   },
 
   // ------------------------------------------------------------
   //  SESSION ID (what is generated and sent to WhatsApp)
   // ------------------------------------------------------------
   session: {
-    // Text put in front of the Session ID, e.g. 'ADEVOS-X:~'.
+    // Text put in front of the Session ID, e.g. ''.
     // '' = no prefix (the Session ID is just the plain base64 creds).
     // NOTE: your bot must strip the same prefix when it loads the session.
     prefix: 'ADEVOS-X:~',
 
     // Small footer under the Session ID message in WhatsApp. '' = no footer.
-    footer: '{name} Bots',
+    footer: '',
 
     // Message sent after the Session ID in WhatsApp. '' = send nothing.
     // (WhatsApp formatting works: *bold*, _italic_, > quote)
@@ -79,10 +79,10 @@ module.exports = {
     //   green, blue, red, purple, orange, pink, cyan, yellow, teal, gold,
     //   lime, indigo, violet, white ... or any CSS colour name (crimson, tomato,
     //   dodgerblue ...) or a hex code like '#ff0055'.
-    color: 'green',
+    color: 'blue',
 
     // modern | gradient | glass | minimal | cyber
-    layout: 'modern',
+    layout: 'gradient',
 
     // dark | light     (minimal looks great in 'light')
     mode: 'dark',
