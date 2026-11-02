@@ -24,7 +24,13 @@ const DEFAULTS = {
         message:
             '*Session ID Generated*\n\n1.Keep it safe and *Do NEVER* share this Session ID with anyone if Not necessary.\n\n> Powered by {name}',
     },
-    website: { footer: '{name} <b>Session Generator</b> Made by <b>{developer}</b>' },
+    website: {
+        badge: '8 Pairing Code & QR Code Session Generator',
+        title: 'Session ID in minute !',
+        description:
+            'Generate Session ID by pairing code or a QR code for {name} Bots Deployment, Delivered straight to your WhatsApp, Keep it safe.',
+        footer: '{name} <b>Session Generator</b> Made by <b>{developer}</b>',
+    },
     theme: { color: 'green', layout: 'modern', mode: 'dark' },
 };
 
@@ -138,6 +144,8 @@ function render(view) {
 
     const logoImg = (alt) => (logoSrc ? `<img src="${esc(logoSrc)}" alt="${esc(alt)}" />` : '');
     const footerText = String(config.website.footer || '').trim();
+    const txt = (v) => String(v || '').trim();
+    const badgeIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l7 4v6c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-4z"/></svg>';
 
     const map = {
         HTML_ATTRS: `data-layout="${t.layout}" data-mode="${t.mode}" data-color="${esc(t.color)}"`,
@@ -152,6 +160,9 @@ function render(view) {
             ? `<a class="brand-logo" href="#home" aria-label="${esc(vars.name)}">${logoImg(vars.name + ' logo')}</a>`
             : '<span class="brand-logo brand-logo--empty"></span>',
         PAIR_LOGO: logoImg(vars.botName),
+        HERO_BADGE: txt(config.website.badge) ? `<div class="badge">${badgeIcon} ${fillHtml(txt(config.website.badge))}</div>` : '',
+        HERO_TITLE: txt(config.website.title) ? `<h1><b>${fillHtml(txt(config.website.title))}</b></h1>` : '',
+        HERO_DESC: txt(config.website.description) ? `<p>${fillHtml(txt(config.website.description))}</p>` : '',
         FOOTER: footerText ? `<footer>\n  <p>${fillHtml(footerText)}</p>\n</footer>` : '',
     };
     cache[view] = html.replace(/\{\{(\w+)\}\}/g, (m, k) => (k in map ? map[k] : m));
