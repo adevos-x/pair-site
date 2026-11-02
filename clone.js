@@ -1,7 +1,7 @@
 /**
- * ============================================================
- *  clone.js  —  THE ONLY FILE YOU NEED TO EDIT TO REBRAND
- * ============================================================
+ * ======================================================
+ *  clone.js   THE ONLY FILE YOU NEED TO EDIT TO REBRAND
+ * ======================================================
  *  Everything the site shows (name, logo, colours, layout,
  *  footer, Session ID prefix, WhatsApp message ...) is read
  *  from here. Nothing is hard-coded anywhere else.
