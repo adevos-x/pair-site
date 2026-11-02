@@ -11,7 +11,7 @@
 
 <br>
 
-<h2 align="center">Simple &amp; Easy to it your</h2>
+<h2 align="center">Simple &amp; Easy to make it yours</h2>
 
 Everything that identifies this website lives in **one single file: `clone.js`**. Nothing is hard-coded anywhere else, so to make the site yours you only open `clone.js`, change the values you want, save, and restart (or redeploy). You never have to touch the HTML or the other JavaScript files.
 
