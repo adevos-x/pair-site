@@ -49,7 +49,7 @@ module.exports = {
     // Text put in front of the Session ID, e.g. ''.
     // '' = no prefix (the Session ID is just the plain base64 creds).
     // NOTE: your bot must strip the same prefix when it loads the session.
-    prefix: 'ADEVOS-X:~',
+    prefix: '',
 
     // Small footer under the Session ID message in WhatsApp. '' = no footer.
     footer: '',
