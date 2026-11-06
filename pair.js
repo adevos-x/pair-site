@@ -2,16 +2,25 @@ const { makeid } = require('./id');
 const express = require('express');
 const fs = require('fs');
 const pino = require('pino');
-const {
-    default: makeWASocket,
-    useMultiFileAuthState,
-    Browsers,
-    delay,
-    makeCacheableSignalKeyStore,
-    fetchLatestBaileysVersion,
-    DisconnectReason,
-} = require("@whiskeysockets/baileys");
-const { sendButtons, btn } = require('wolfbtns');
+// baileys (wolfsocket) and wolfbtns are ES Modules -> must be loaded with dynamic import()
+let makeWASocket, useMultiFileAuthState, Browsers, delay, makeCacheableSignalKeyStore,
+    fetchLatestBaileysVersion, DisconnectReason, sendButtons, btn;
+let _ready;
+function loadDeps() {
+    if (!_ready) {
+        _ready = (async () => {
+            const b = await import('@whiskeysockets/baileys');
+            makeWASocket = b.default?.default || b.default || b.makeWASocket;
+            ({ useMultiFileAuthState, Browsers, delay, makeCacheableSignalKeyStore,
+               fetchLatestBaileysVersion, DisconnectReason } = b.default && b.default.useMultiFileAuthState ? { ...b, ...b.default } : b);
+            const w = await import('wolfbtns');
+            const wb = w.sendButtons ? w : (w.default || w);
+            sendButtons = wb.sendButtons;
+            btn = wb.btn;
+        })();
+    }
+    return _ready;
+}
 const store = require('./store');
 const { TEMP_DIR } = require('./tempdir');
 const site = require('./site'); 
@@ -69,6 +78,7 @@ async function waitForCredsFile(filePath, timeoutMs = 20000, intervalMs = 1000) 
 }
 
 router.get('/', async (req, res) => {
+    try { await loadDeps(); } catch (e) { console.error('loadDeps failed:', e); return res.status(500).json({ error: 'Server failed to load WhatsApp library' }); }
     let num = req.query.number;
 
     if (!num) {
