@@ -168,4 +168,8 @@ Only two files are not controlled by `clone.js`: `package.json` and `app.json`. 
 
 <br>
 
+<p align="center">
+  <a href="https://t.me/adevosX"><img alt="Contact For Help" src="https://img.shields.io/badge/Contact%20For%20Help-26A5E4?style=for-the-badge&logo=telegram&logoColor=white"/></a>
+</p>
+
 <p align="center"><b>Powered by Adevos-X Tech</b></p>
