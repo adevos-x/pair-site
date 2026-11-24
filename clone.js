@@ -23,10 +23,10 @@ module.exports = {
   //  BRANDING
   // ------------------------------------------------------------
   brand: {
-    name: 'Adevos-X Tech',          // main brand name (headings, texts, messages)
-    botName: 'Adevos-X Bot',        // bot name shown on the pair page + browser tab
-    owner: 'Adevos',                // owner of the brand (use {owner} in texts)
-    developer: 'Ahmed',             // developer name (use {developer} in texts)
+    name: 'ARYAN MD',               // main brand name (headings, texts, messages)
+    botName: 'ARYAN MD Bot',        // bot name shown on the pair page + browser tab
+    owner: 'Aryan',                 // owner of the brand (use {owner} in texts)
+    developer: 'Aryan',             // developer name (use {developer} in texts)
     siteTitle: '{name} Pair Site',  // title shown in the top bar (always shown in CAPITALS)
   },
 
@@ -46,10 +46,10 @@ module.exports = {
   //  SESSION ID (what is generated and sent to WhatsApp)
   // ------------------------------------------------------------
   session: {
-    // Text put in front of the Session ID, e.g. 'ADEVOS-X:~'.
+    // Text put in front of the Session ID, e.g. 'Aryan-X:~'.
     // '' = no prefix (the Session ID is just the plain base64 creds).
     // NOTE: your bot must strip the same prefix when it loads the session.
-    prefix: 'ADEVOS-X:~',
+    prefix: 'Aryan-X:~',
 
     // Small footer under the Session ID message in WhatsApp. '' = no footer.
     footer: '{name} Bots',
