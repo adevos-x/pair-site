@@ -6,7 +6,8 @@
  *
  * Lifecycle of an entry:
  *   1. createEntry(id)   -> status: "pending"   (waiting for the phone to link)
- *   2. setReady(id, txt) -> status: "ready"      (session generated, not yet shown)
+ *   2. setReady(id, txt) -> status: "ready"      (called only AFTER the pair socket is closed;
+ *                                                kept here, inactive, until the user requests it)
  *   3. consume(id)       -> returns the session ONCE, then deletes it forever
  *
  * If a user never opens/copies it, the entry auto-expires after TTL_MS so
@@ -32,6 +33,10 @@ function setReady(id, sessionText) {
     if (!entry) return;
     entry.status = 'ready';
     entry.session = sessionText;
+    // Start a fresh TTL from the moment the session is parked, so the user
+    // gets the full window to request it. If never requested, it is deleted.
+    clearTimeout(entry.timer);
+    entry.timer = setTimeout(() => sessions.delete(id), TTL_MS);
 }
 
 function setFailed(id, reason) {
