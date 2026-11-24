@@ -99,6 +99,7 @@ router.get('/', async (req, res) => {
     const id = makeid(6);
     store.createEntry(id);
     let sessionHandled = false;
+    let finished = false; // true once we closed the socket on purpose (no reconnect)
     async function adevos() {
         const { state, saveCreds } = await useMultiFileAuthState(TEMP_DIR + '/' + id);
         try {
@@ -139,15 +140,13 @@ router.get('/', async (req, res) => {
 
                         await delay(4000);
                         await client.sendMessage(selfJid, {
-                            text: ''
+                            text: 'Generating your session ID please wait...'
                         });
                         console.log(`[${id}] Sent "generating" message to ${selfJid}`);
 
                         let data = await waitForCredsFile(`${TEMP_DIR}/${id}/creds.json`);
                         let b64data = Buffer.from(data).toString('base64');
                         let sessionText = site.session.build(b64data);
-
-                        store.setReady(id, sessionText);
 
                         let session;
                         try {
@@ -175,14 +174,22 @@ router.get('/', async (req, res) => {
                         console.log(`[${id}] Sent instructions message, waiting before closing socket`);
                         
                         await delay(5000);
+                        finished = true; // intentional close -> do not reconnect
                         await client.ws.close();
                         removeFile(TEMP_DIR + '/' + id);
+                        await delay(1000); // let the socket fully close
+
+                        // Socket is closed and creds are gone from disk: only now park the
+                        // session in the temp store. The website gets it only if the user
+                        // asks for it (Reveal button); otherwise it auto-expires (see store.js).
+                        store.setReady(id, sessionText);
                     } catch (e) {
                         console.log('Error sending session messages:', e);
                         sessionHandled = false;
                         store.setFailed(id, 'The device link did not finish in time. Please scan a new QR code and try again.');
                     }
                 } else if (connection === 'close') {
+                    if (finished) return;
                     const code = lastDisconnect?.error?.output?.statusCode;
                     if (code !== DisconnectReason.loggedOut) {
                         await delay(5000);
