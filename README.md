@@ -47,7 +47,7 @@ Only two files are not controlled by `clone.js`: `package.json` and `app.json`. 
 
 <h2 align="center">Deploying your own copy (Fork or ZIP)</h2>
 
-> **Important:** The Deploy buttons in the next section point to the **original repository** (`adevos-x/pair-site`). If you edited `clone.js` in your own fork or in a downloaded ZIP and click those buttons as they are, you will deploy the original code and **your changes will not be included**. Use one of the three methods below.
+> **Important:** The Deploy buttons in the next section point to the **original repository** (`adevos-x/pair-site`). If you edited `clone.js` in your own fork or in a downloaded ZIP and click those buttons as they are, you will deploy the original code and **your changes will not be included**. Use one of the two methods below.
 
 **Method 1: Connect your own repository (recommended).** This works on every platform and needs no link editing.
 
@@ -62,23 +62,9 @@ Only two files are not controlled by `clone.js`: `package.json` and `app.json`. 
 - **Vercel:** Add New → Project → Import your repository.
 - **Railway / Koyeb:** New Project → Deploy from GitHub → select your repository.
 
-**Method 2: Fork-proof Deploy button (Heroku).** Put this button in the README of your own fork. It has no repository name inside, so Heroku reads the repository from the page the button was clicked on and follows your fork automatically:
+**Method 2: Edit the links.** Open `README.md` and replace `adevos-x/pair-site` with `YOUR-USERNAME/YOUR-REPO` in the **Heroku**, **Render** and **Vercel** button links. Also change the `"repository"` value in `app.json` (it is only shown as a link on the deploy page, but keep it correct). Then click the buttons from your own README.
 
-<p align="center">
-  <a href="https://www.heroku.com/deploy"><img alt="Deploy" src="https://www.herokucdn.com/deploy/button.svg"/></a>
-</p>
-
-To use it, copy this code into the README of your fork:
-
-```md
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://www.heroku.com/deploy)
-```
-
-It only works for **public** repositories, and only when the button is clicked on the repository page on github.com. Some browsers hide this information; if you get an error, use Method 1 or 3. Render tries the same trick by default but browsers often block it, and Vercel does not support it, so for those two use Method 1 or 3.
-
-**Method 3: Edit the links.** Open `README.md` and replace `adevos-x/pair-site` with `YOUR-USERNAME/YOUR-REPO` in the **Heroku**, **Render** and **Vercel** button links. Also change the `"repository"` value in `app.json` (it is only shown as a link on the deploy page, but keep it correct). Then click the buttons from your own README.
-
-**Downloaded the ZIP?** Heroku, Render and Vercel deploy from a Git repository, not from a ZIP file. Upload the files to your own GitHub repository first, then follow Method 1 (or 3). No GitHub account? Use the **VPS**, **Docker** or **Pterodactyl** steps below, which work directly with the files.
+**Downloaded the ZIP?** Heroku, Render and Vercel deploy from a Git repository, not from a ZIP file. Upload the files to your own GitHub repository first, then follow Method 1 (or 2). No GitHub account? Use the **VPS**, **Docker** or **Pterodactyl** steps below, which work directly with the files.
 
 <br>
 
