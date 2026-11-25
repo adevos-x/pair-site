@@ -64,6 +64,12 @@ Only two files are not controlled by `clone.js`: `package.json` and `app.json`. 
 
 **Method 2: Fork-proof Deploy button (Heroku).** Put this button in the README of your own fork. It has no repository name inside, so Heroku reads the repository from the page the button was clicked on and follows your fork automatically:
 
+<p align="center">
+  <a href="https://www.heroku.com/deploy"><img alt="Deploy" src="https://www.herokucdn.com/deploy/button.svg"/></a>
+</p>
+
+To use it, copy this code into the README of your fork:
+
 ```md
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://www.heroku.com/deploy)
 ```
